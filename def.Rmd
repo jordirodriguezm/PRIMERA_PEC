@@ -1,0 +1,726 @@
+---
+title: "Proyecto"
+author: "Jordi Rodríguez Mestres"
+date: "23/11/2020"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    number_sections: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+library(kableExtra)
+```
+
+Repositorio GitHub: https://github.com/jordirodriguezm/PRIMERA_PEC
+
+# Abstract
+
+Poco se comprende sobre el proceso que ocurre antes de que la metástasis de a lugar. En este estudio se demuestra cómo la sobreexpresión de *granulocyte-colony stimulating factor (G-CSF)* influye en los organismos en el proceso premetastásico cuando los espacios receptores de células malignas hacen hueco para las mismas. Gracias a estas conclusiones se podrían administrar dosis que sean capaces de contrarrestar este proceso para que no se de lugar a la metástasis.
+
+# Objetivos
+
+Este estudio busca comprender y localizar dónde sucede el proceso premetastásico cuando las células malignas son capaces de influir tejidos que están a una distancia notable para allanar el terreno y hacer el proceso de reproducción de las células malignas más eficaz a su llegada. En definitiva, se crea lo que se conoce como nicho premetastásico.
+
+Estos nichos premetastásicos dan la posibilidad de conocer, de antemano, los posibles tejidos que atacar con la intención de conseguir la mayor reproducibilidad y sobrevivir en el organismo.
+
+El objetivo práctico de este experimento se basa en la búsqueda de soluciones que puedan contrarrestar el proceso premetástasico desacelerando la metástasis en el organismo e incrementar las posibildades de que desaparezca del organismo por completo. Estas soluciones se basan en anticuerpos como **Anti-G-CSF o anti-Vv8**.
+
+# Materiales y Métodos
+
+## Estructura del Experimento
+
+El experimento viene derivado del estudio de la expresión de microarrays en 3 tipos de ratas con carcicoma pulmonar derivadas de los modelos de rata tipo 4T-1. Estos tres tipos de ratas se dividen de la siguiente forma en el estudio:
+
+- 4 ratas sin ningún tumor, **naive**.
+- 5 ratas con carcicomas no metastásicos, **67NR**.
+- 5 ratas con carcicomas metastásicos, **4T1**.
+
+Otras células se han sometido al estudio, pero estas han sido las más significativas. A continuación se muestra la tabla que contiene la información e identificación de las muestras del experimento.
+
+## Procedimiento del Análisis
+
+### Roadmap del Análisis
+
+1. Identificar que grupos hay y a qué grupo pertenece cada muestra.
+2. Control de calidad de los datos crudos
+3. Normalización
+4. Control de calidad de los datos normalizados
+5. Filtraje no específico
+6. Identificación de genes diferencialmente expresados
+7. Anotación de los resultados
+8. Comparación entre distintas comparaciones (si hay más de una comparación, ver que genes han sido seleccionados en más de una comparación)
+9. Análisis de significación biológica (“Gene Enrichment Analysis”)
+
+```{r}
+workingDir <-getwd()
+dataDir <-file.path(workingDir, "data")
+resultsDir <- file.path(workingDir,"results")
+celfilesDir <- file.path(workingDir,"celfiles")
+```
+
+```{r}
+cels <- dir('celfiles')
+
+muestras <- gsub('.CEL', '', cels)
+
+grupos <- c(rep('Naive', 4),
+            rep('67NR', 5),
+            rep('4T1', 5))
+
+replicas <- c('rep1', 'rep2', 'rep3', 'rep4',
+              'rep1', 'rep2', 'rep3', 'rep4', 'rep5',
+              'rep1', 'rep2', 'rep3', 'rep4', 'rep5')
+
+gruprep <- c('BIO116263',
+             'BIO116265',
+             'BIO116267',
+             'BIO116264',
+             'BIO116259',
+             'BIO116261',
+             'BIO116258',
+             'BIO116260',
+             'BIO116262',
+             'BIO116253',
+             'BIO116254',
+             'BIO116255',
+             'BIO116256',
+             'BIO116257')
+
+gruprep <- paste0(muestras, replicas)
+gruprep <- c('Metastatic_rep1', 'Metastatic_rep2', 'Metastatic_rep3', 'Metastatic_rep4', 'Non-metastatic_rep1', 'Non-metastatic_rep2', 'Non-metastatic_rep3', 'Non-metastatic_rep4', 'Non-metastatic_rep5', 'Normal_rep1', 'Normal_rep2', 'Normal_rep3', 'Normal_rep4', 'Normal_rep5')
+
+targets <- data.frame(Sample = muestras,
+                      SampleIDs = gruprep,
+                      Group = grupos)
+
+rownames(targets) <- paste0(muestras, '.CEL')
+
+write.table(targets, sep = '\t',
+             file=file.path(dataDir, "targets.txt"), row.names = TRUE, quote = FALSE)
+```
+
+## Procedimiento Detallado
+
+### Identificar que grupos hay y a qué grupo pertenece cada muestra.
+
+Preparamos las carpetas para el análisis y cargamos el archivo de targets que hemos creado previamente para indicarle a la función del `biocManager`. Este archivo tiene la siguiente estructura:
+
+```{r, message=F}
+library(affy)
+sampleInfo <- read.AnnotatedDataFrame(file.path(dataDir,"targets.txt"), header = TRUE, row.names = 1, sep="\t")
+fileNames <- rownames(pData(sampleInfo))
+
+targets <- read.table(file.path(dataDir, 'targets.txt'))
+targets %>%
+  kbl() %>%
+  kable_classic_2(full_width = F)
+```
+
+Los archivos `.CEL` que contienen los microarrays recogen la siguiente estructura:
+
+```{r}
+rawData <- read.affybatch(filenames=file.path(celfilesDir,fileNames),phenoData=sampleInfo)
+show(rawData)
+```
+
+```{r}
+colores <- c(rep("green", 4), rep("blue", 5), rep("red", 5))
+grupos <- pData(rawData)$Group
+numSamples <- nrow(pData(rawData))
+sampleNames <-paste(replicas, grupos, sep=".")
+colnames(exprs(rawData))<-sampleNames
+```
+
+### Control de calidad de los datos crudos
+
+A continuación mostramos una serie de gráficas para comprobar la calidad de los datos. Para visualizar las intensidades de una forma clara, se aplican logaritmos en base 2 para el array i y la sonda j.
+
+En este caso visualizamos un histograma para ver las intensidades y si las formas de las intensidades son prácticamente iguales, no necesitaríamos normalizar los datos.
+
+```{r}
+hist(rawData, main="Signal distribution", col=colores, lty=1:numSamples)
+legend (x="topright", legend=sampleNames , col=colores, lty=1:numSamples)
+```
+
+Existen diferencias, aunque mínimas. En cualquier caso, veamos otro análisis para comprobar si el rango de cada muestra es comparable:
+
+```{r}
+boxplot(rawData, cex.axis=0.6, col=colores, las=2, names=sampleNames, 
+        main="Signal distribution for selected chips")
+```
+
+Algunas muestras presentan valores un poco más altos que el resto, como las réplicas 1 y 3 del grupo de ratones 4T1. Este tipo de situaciones nos llevará a normalizar los datos para que el análisis sea consistente.
+
+```{r}
+options(scipen=999)
+plotPCA <- function ( X, labels=NULL, colors=NULL, dataDesc="", scale=FALSE)
+{
+  pcX<-prcomp(t(X), scale=scale) # o prcomp(t(X))
+  loads<- round(pcX$sdev^2/sum(pcX$sdev^2)*100,1)
+  xlab<-c(paste("PC1",loads[1],"%"))
+  ylab<-c(paste("PC2",loads[2],"%"))
+  if (is.null(colors)) colors=1
+  plot(pcX$x[,1:2],xlab=xlab,ylab=ylab, col=colors, 
+       xlim=c(min(pcX$x[,1])-10, max(pcX$x[,1])+10))
+  text(pcX$x[,1],pcX$x[,2], labels, pos=3, cex=0.8)
+  title(paste("Plot of first 2 PCs for expressions in", dataDesc, sep=" "), cex=0.8)
+}
+```
+
+Ahora veamos que las diferentes muestras se relacionan más con sus respectivos grupos con un análisis de Componentes Principales ya que en una gráfica de dos ejes, las dos primeras componentes, podemos capturar la información de la gran mayoría de variables.
+
+```{r}
+plotPCA(exprs(rawData), labels=sampleNames, dataDesc="Selected Samples", scale = TRUE, colors = colores)
+```
+
+La gráfica de las componentes principales debería reflejar que las muestras de cada grupo se encuentran agrupadas. Sin embargo, no vemos dicha observación en todos los grupos. Los que más agrupados se encuentran son los del grupo Naive con todos en el medio, los del grupo *No metastásico* se encuentran más hacia arriba, mientras que los *Metastásicos* se encuentran ligeramente por debajo de los *Naive* y más hacia la izquierda.
+
+Es bastante curioso y extraño que las muestras del grupo *Metastásico* se encuentren cercanas a las del grupo *Naive* ya que las muestras deberían ser más parecidas a las del grupo *No metastásico*. En los siguientes apartados veremos el por qué de esta situación.
+
+Ahora realizaremos un mapa de calor con cada una de las muestras para ver las distancias según los microarrays entre cada una de las muestras:
+
+```{r}
+manDist <-  dist(t(exprs(rawData))) 
+heatmap (as.matrix(manDist),  col=heat.colors(16))
+```
+
+No se aprecia una clara distinción entre los grupos ya que aparecen en un orden salteado y aleatorio, podríamos decir.
+
+Finalmente, realizamos un cluster jerárquico, que se basa en las distancias que hemos calculado anteriormente para ver cómo se podrían agrupar las muestras según sus características:
+
+```{r}
+clust.euclid.average <- hclust(dist(t(exprs(rawData))),method="average")
+plot(clust.euclid.average, labels=sampleNames, main="Hierarchical clustering of samples",  hang=-1)
+```
+
+En algunas ramas del dendrograma aparecen las muestras de los grupos, pero en su conjunto parecen como si las muestras fueran independientes de sus grupos.
+
+Finalmente, generamos el informe de la calidad de las métricas con la función `arrayQualityMetrics`:
+
+```{r, eval=FALSE, echo=TRUE}
+stopifnot(require(arrayQualityMetrics))
+# arrayQualityMetrics(rawData, 
+#                     intgroup = "Group",
+#                     outdir = file.path(resultsDir, "arrayQuality"), 
+#                     force=TRUE)
+```
+
+Esta información está contenida en el directorio de resultados del repositorio.
+
+### Normalización
+
+Para que las muestras sean comparables, realizamos la normalización con el método **RMA** y vemos algunas gráficas para comprobar que los datos se han normalizado correctamente y que las diferentes muestras sean comparables. Otro de los motivos es la eliminación de ruido que puede haber en los datos por algún fallo que haya habido durante el proceso de recogida de datos.
+
+```{r, include=TRUE}
+stopifnot(require(affy))
+eset_rma <- rma(rawData) 
+```
+
+### Control de calidad de los datos normalizados
+
+Realizamos las mismas comprobaciones que en el apartado anterior a través de las gráficas para ver cómo se comparan las diferentes muestras.
+
+```{r}
+boxplot(exprs(eset_rma),main="RMA", names=sampleNames, cex.axis=0.7, col=colores,las=2)
+
+sds <- apply (exprs(eset_rma), 1, sd)
+sdsO<- sort(sds)
+plot(1:length(sdsO), sdsO, main="Global variation over all genes")
+
+plotPCA(exprs(eset_rma), labels=sampleNames, dataDesc="Selected Samples", scale = TRUE, colors = colores)
+
+manDist <-  dist(t(exprs(eset_rma))) 
+heatmap (as.matrix(manDist),  col=heat.colors(16))
+
+clust.euclid.average <- hclust(dist(t(exprs(eset_rma))),method="average")
+plot(clust.euclid.average, labels=sampleNames, main="Hierarchical clustering of samples",  hang=-1)
+```
+
+Ahora las gráficas son comparables ya que los rangos de valores de cada muestra son comparables. Las componentes principales nos muestran que las muestras de cada grupo se encuentran mejor agrupadas según el mismo. Así como los mapas de calor de las distancias y el dendrograma del cluster jerárquico, que nos indican mejores agrupaciones de las observaciones ya que están junto a las de su grupo, mayormente.
+
+### Filtraje no específico
+
+En los datos, contenemos muchísimos microarrays, algunos mejor o peor recogidos, que nos dan la misma información porque son células del organismo. Para que la computación sea más llevadera, filtramos los datos de forma aleatoria con la función `nsFilter()`.
+
+```{r, echo=TRUE}
+require(genefilter)
+
+filtered <- nsFilter(eset_rma, require.entrez=TRUE,
+         remove.dupEntrez=TRUE, var.func=IQR,
+         var.cutoff=0.5, var.filter=TRUE,
+         filterByQuantile=TRUE, feature.exclude="^AFFX")
+```
+
+```{r}
+eset_filtered <-filtered$eset
+
+shortNames<- paste(pData(eset_rma)$Group, pData(eset_rma)$SampleIDs,sep=".")
+# sum(rownames(pData(eset_filtered))!=colnames(exprs(eset_filtered)))
+```
+
+Comprobemos a continuación con cuántos microarrays nos hemos quedado finalmente:
+
+```{r}
+dim(exprs(rawData))
+dim(exprs(eset_rma))
+dim(exprs(eset_filtered))
+```
+
+Hemos pasado de tener 1,004,004 microarrays en el *raw data* a 10,254. No hay duda de que el proceso de cálculos será mucho más rápido. A partir de este momento continuamos los microarrays filtrados.
+
+```{r}
+names(exprs(eset_filtered))<- names(exprs(eset_rma))<- shortNames
+write.csv2(exprs(eset_rma), file.path(resultsDir, "Datos.Normalizados.csv2"))
+write.csv2(exprs(eset_filtered), file.path(resultsDir, "Datos.Normalizados.Filtrados.csv2"))
+save(eset_rma, eset_filtered, file=file.path(resultsDir, "datos.normalizados.Rda"))
+```
+
+
+### Identificación de genes diferencialmente expresados
+
+El objetivo del estudio no es otro que ver las diferencias entre los grupos que las células cancerígenas. Por este motivo creamos un nuevo objeto que contenga ambos grupos para realizar las comparaciones a través del test t de Student con el que veremos si existen diferencias significativas entre los genes de las diferentes muestras.
+
+```{r}
+eset2 <- eset_filtered[,5:14]
+
+stopifnot(require(genefilter))
+teststat <-rowttests(eset2, "Group")
+```
+
+Ordenamos los datos según el *p-valor* de los tests por filas que se han realizado para ver los genes donde se más se muestran estas diferencias significativas con la intención de investigarlos para ver los motivos por los que estos genes se expresan de forma diferente en las muestras.
+
+```{r}
+topDown<-order(teststat$p.value)
+ranked<-teststat[topDown,]
+(top10<-ranked[1:10,]) %>%
+  kbl() %>%
+  kable_classic_2(full_width = F)
+```
+
+Graficamos un Volcano Plot para ver de forma gráfica los genes que muestran diferencias significativas, que se situarán en la parte superior.
+
+```{r}
+## ----volcano1------------------------------------------------------------
+x<-ranked$dm; y<--log(ranked$p.value)
+plot(x, y, xlab="Fold Change", ylab ="-logPval", 
+     main="Volcano plot\n67NR vs 4T1")
+abline(v=-1);abline(v=1);
+text (x[1:10], y[1:10],rownames(ranked)[1:10], cex=0.7)
+```
+
+Los tests realizados no han sido corregidos y corremos el riesgo de tener falsos positivos. Por este motivo, vamos a realizar otros test que controlen este problema como el de Benjamini y Hochberg.
+
+```{r}
+## ----selectNaif----------------------------------------------------------
+selectedNaif <-ranked[ranked$p.value<0.01,]
+
+## ----adjustPvalues-------------------------------------------------------
+stopifnot(require(multtest))
+procs <- c("Bonferroni","Holm","Hochberg","SidakSS","SidakSD","BH", "BY")
+# procs <- c("Bonferroni","BH")
+adjPvalues <- mt.rawp2adjp(ranked$p.value, procs)
+
+ranked.adjusted<-cbind(ranked[,c(1,3)], adjPvalues$adjp[,-1])
+ranked.adjusted[1:10,] %>%
+  kbl() %>%
+  kable_classic_2(full_width = F)
+```
+
+A primera vista comprobamos que no obtenemos resultados significativos al ejecutar estos test que tratan de contrarrestar el problema de los falsos positivos. Esto se debe a que estamos comparando dos grupos muy parecidos como los *No metastásicos y Metastásicos*. Si ejecutamos lo mismo con el grupo de control y el metastásico, veremos que sí van a existir cambios significativos:
+
+```{r}
+eset2 <- eset_filtered[,c(1:4, 10:14)]
+
+stopifnot(require(genefilter))
+teststat <-rowttests(eset2, "Group")
+```
+
+Ordenamos los datos según el *p-valor* de los tests por filas que se han realizado para ver los genes donde se más se muestran estas diferencias significativas con la intención de investigarlos para ver los motivos por los que estos genes se expresan de forma diferente en las muestras.
+
+```{r}
+topDown<-order(teststat$p.value)
+ranked<-teststat[topDown,]
+
+## ----volcano1------------------------------------------------------------
+x<-ranked$dm; y<--log(ranked$p.value)
+plot(x, y, xlab="Fold Change", ylab ="-logPval", 
+     main="Volcano plot\n67NR vs 4T1")
+abline(v=-1);abline(v=1);
+text (x[1:10], y[1:10],rownames(ranked)[1:10], cex=0.7)
+
+## ----selectNaif----------------------------------------------------------
+selectedNaif <-ranked[ranked$p.value<0.01,]
+
+## ----adjustPvalues-------------------------------------------------------
+stopifnot(require(multtest))
+procs <- c("Bonferroni","Holm","Hochberg","SidakSS","SidakSD","BH", "BY")
+# procs <- c("Bonferroni","BH")
+adjPvalues <- mt.rawp2adjp(ranked$p.value, procs)
+
+ranked.adjusted<-cbind(ranked[,c(1,3)], adjPvalues$adjp[,-1])
+ranked.adjusted[1:10,] %>%
+  kbl() %>%
+  kable_classic_2(full_width = F)
+```
+
+Aquí sí que salen p-valores corregidos que corrigen el problema de los falsos positivos. Los genes diferencialmente expresados se identifican con la secuencia de números identificativos a la izquierda de la tabla. Dichos genes, los más significativos, serán objeto de un análisis más profundo para entender los procesos de premetástasis.
+
+### Anotación de los resultados
+
+Ahora comprobemos cuántos genes se ven diferencialmente expresados entre estos grupos.
+
+```{r}
+## ----selectedAdjusted----------------------------------------------------
+selectedAdjusted<-ranked.adjusted[ranked.adjusted$BH<0.01,]
+nrow(selectedAdjusted)
+selectedAdjusted2<-ranked.adjusted[ranked.adjusted$BH<0.05,]
+nrow(selectedAdjusted2)
+selectedAdjusted2<-ranked.adjusted[ranked.adjusted$BH<0.25,]
+nrow(selectedAdjusted2)
+```
+
+Encontramos 14 genes que son significativos con un nivel de confianza del 99%.
+
+### Comparación entre distintas comparaciones (si hay más de una comparación, ver que genes han sido seleccionados en más de una comparación)
+
+Los test t de Student solo son aplicables a 2 grupos. Si quisiéramos comparar los tres grupos a la vez tendríamos que aplicar las funciones de forma diferente.
+
+Primero diseñamos la matriz de estudio con unos y ceros para pasarla luego a la función `makeContrasts()` y realizar los tests de comparaciones múltiples. Veamos la forma en que queda el diseño:
+
+```{r}
+## ----matDesign, eval=TRUE------------------------------------------------
+design<-matrix(c(1,1,1,1,0,0,0,0,0,0,0,0,0,0,
+              0,0,0,0,1,1,1,1,1,0,0,0,0,0,
+              0,0,0,0,0,0,0,0,0,1,1,1,1,1),
+            nrow=14,byrow=F)
+colnames(design)<-c("Meta", "NoMeta", "Ctrl")
+
+rownames(design) <-  sampleNames 
+design
+```
+
+
+```{r}
+require(limma)
+cont.matrix <- makeContrasts (
+      NMvsM = NoMeta-Meta,
+      CvsM = Ctrl-Meta,
+      CvsNM = Ctrl-NoMeta,
+      levels=design)
+
+require(limma)
+fit<-lmFit(eset_filtered, design)
+fit.main<-contrasts.fit(fit, cont.matrix)
+fit.main<-eBayes(fit.main)
+```
+
+
+```{r}
+## ----topTables, echo=TRUE, eval=TRUE-------------------------------------
+topTab_AvsB <- topTable (fit.main, number=nrow(fit.main), coef="NMvsM", adjust="fdr")
+topTab_AvsL <- topTable (fit.main, number=nrow(fit.main), coef="CvsM", adjust="fdr")
+topTab_BvsL  <- topTable (fit.main, number=nrow(fit.main) , coef="CvsNM", adjust="fdr")
+
+## ----volcanos, results='asis', echo=FALSE, eval=FALSE--------------------
+## for(i in 1:ncol(cont.matrix)){
+##   compName <-colnames(cont.matrix)[i]
+##   file=paste("volcanoPlot", compName, ".pdf", sep="")
+##   pdf(file=file.path(workingDir, "images", file), paper="special", width=6, height=6)
+##   volcanoplot(fit.main, coef=i, highlight=10, names=rownames(fit.main),
+##             main=paste("Differentially expressed genes",compName, sep="\n"))
+##   abline(v=c(-1,1))
+##   dev.off()
+##   cat("\\includegraphics{", file, "}\n\n", sep="")
+## }
+
+## ----CuantosGenes, echo=F, eval=FALSE------------------------------------
+## cat("Numero de genes con un p--valor inferior a 0.05 en cada comparacion:\n")
+## cat ("En la comparacion 'A vs B': ", sum(topTab_AvsB$adj.P.Val<=0.05),"\n")
+## cat ("En la comparacion 'A vs L': ", sum(topTab_AvsL$adj.P.Val<=0.05),"\n")
+## cat ("En la comparacion 'B vs L': ", sum(topTab_BvsL$adj.P.Val<=0.05),"\n")
+##
+## cat("\nNumero de genes con un p--valor inferior a 0.01 en cada comparacion:\n")
+## cat ("En la comparacion 'A vs B': ", sum(topTab_AvsB$adj.P.Val<=0.01),"\n")
+## cat ("En la comparacion 'A vs L': ", sum(topTab_AvsL$adj.P.Val<=0.01),"\n")
+## cat ("En la comparacion 'B vs L': ", sum(topTab_BvsL$adj.P.Val<=0.01),"\n")
+
+## ----topGenesAvsB, echo=FALSE, results='asis', eval=FALSE----------------
+## require(Biobase)
+## stopifnot(require(xtable))
+## AvsB10<-xtable(topTab_AvsB[1:10,1:6],
+##     label='topTab_AvsB',
+##     caption='10 genes más expresados diferencialmente en la comparacion A vs B')
+## print(AvsB10, tabular.environment='longtable',floating=FALSE)
+
+## ----topGenesAvsL,echo=FALSE,results='asis', eval=FALSE------------------
+## require(Biobase)
+## stopifnot(require(xtable))
+## AvsL10<-xtable(topTab_AvsL[1:10,1:6],
+##     label='topTab_AvsL',
+##     caption='10 genes más expresados diferencialmente en la comparacion A vs L')
+## print(AvsL10, tabular.environment='longtable',floating=FALSE)
+
+## ----topGenesBvsL,echo=FALSE,results='asis', eval=FALSE------------------
+## BvsL10<-xtable(topTab_BvsL[1:10,1:6],
+##     label='topTab_BvsL',
+##     caption='10 genes más expresados diferencialmente en la comparacion B vs L')
+## print(BvsL10, tabular.environment='longtable',floating=FALSE)
+```
+
+Para resumir las comparaciones múltiples contamos el número de filas que muestran al menos una comparación de grupos de genes sobre-expresados o sub-expresados.
+
+Tomamos como criterio p-valores situados en 0.01.
+
+```{r, echo=TRUE}
+res<-decideTests(fit.main, method="separate", adjust.method="fdr", p.value=0.01, lfc=1)
+
+sum.res.rows<-apply(abs(res),1,sum)
+res.selected<-res[sum.res.rows!=0,] 
+summary(res)
+```
+
+Los resultados muestran que hay 26 genes en cada comparación de los grupos No Metastásicos vs Metastásicos y del Control y Metastásico. Todos ellos subexpresados. Para encontrar aquellos que estén sobreexpresados vamos a ensanchar el límite del p-valor a 0.05.
+
+```{r, echo=TRUE}
+res<-decideTests(fit.main, method="separate", adjust.method="fdr", p.value=0.05, lfc=1)
+sum.res.rows<-apply(abs(res),1,sum)
+res.selected<-res[sum.res.rows!=0,] 
+print(summary(res))
+```
+
+Ahora sí llegamos a ver al menos 2 genes que están sobre expresados. Véamos en un diagrama de Venn estas comparaciones para ver cuántos coinciden.
+
+```{r}
+vennDiagram (res.selected[,1:3], main="Genes in common #1", cex=0.9)
+```
+
+Encontramos 22 genes que coinciden en la sobreexpresión o subexpresión de los genes. Estos deberán ser a los que prestaremos atención para estudiarlos y sacar conclusiones sobre el objetivo de nuestro estudio que dijimos al inicio del proyecto; queríamos encontrar los genes que están influenciando el proceso premetastásico para la creación de nichos con la intención de generar anticuerpos que contrarresten su desarrollo. 
+
+# Resultados
+
+Tras haber identificado los genes que se encuentran diferencialmente expresados, procedemos a realizar el mapa de calor con el cluster jerárquico:
+
+```{r, include=FALSE}
+## ----anota1, eval=TRUE---------------------------------------------------
+require(mouse4302.db)
+mouse4302()
+```
+
+```{r}
+## ----annaffy-------------------------------------------------------------
+require(annaffy)
+genesSelected <- rownames(res.selected)
+at <- aafTableAnn(genesSelected, "mouse4302.db")
+saveHTML (at, file.path(resultsDir, "anotations.html"), 
+          "Annotations for selected genes")
+```
+
+```{r}
+## ----htmlPages-----------------------------------------------------------
+listOfTables <- list(AvsB = topTab_AvsB, AvsL = topTab_AvsL, BvsL = topTab_BvsL)
+require(GOstats)
+require(annotate)
+for (i in 1:length(listOfTables)){
+  # Seleccionamos la "topTable"
+  topTab <- listOfTables[[i]]
+  # Escogemos los grupos de sondas a incluir en la tabla
+  whichGenes<-topTab["P.Value"]<0.05
+  selectedIDs <- rownames(topTab)[whichGenes]
+  # Los convertimos a identificadores Entrez ("EG") y a Gene Symbols
+  genes<- getEG(selectedIDs, "mouse4302.db")
+  simbols <-getSYMBOL(selectedIDs, "mouse4302.db")
+  # Haremos la columna de Entrez sea hiperenlazable
+  paraEnlace <- list (misgenes=genes)
+  # Preparamos el data.frame con el que se creará el archivo de resultados
+  otherNames = data.frame(selectedIDs, simbols, topTab[whichGenes,-1])
+  names(otherNames) = c("Affy ID", "Gene Symbol", colnames(topTab)[-1])
+  # Invocamos la función "htmlpage"
+  comparison <- names(listOfTables)[i]
+  htmlpage(paraEnlace, 
+           filename =file.path(resultsDir, 
+           paste("Selected Genes in comparison ",comparison,".html", sep="")) , 
+           title = paste("Diff. expressed genes in comparison ", comparison, sep=""), 
+           othernames = otherNames, 
+           table.head = c("Entrez IDs", names(otherNames)),
+           table.center = TRUE, 
+           repository=list("en"))
+}
+```
+
+
+```{r}
+## ----expressAndTop-------------------------------------------------------
+require(annotate)
+
+EntrezsA <- getEG (rownames(topTab_AvsB), annotation(eset_rma))
+SymbolsA <- getSYMBOL (rownames(topTab_AvsB), annotation(eset_rma))
+ExpressAndTop_AvsB <- cbind(SymbolsA, EntrezsA, topTab_AvsB, exprs(eset_filtered)[rownames(topTab_AvsB), 1:9])
+write.csv2(ExpressAndTop_AvsB, file.path(resultsDir, "ExpressAndTop_NMvsM.csv2"))
+
+EntrezsA <- getEG (rownames(topTab_AvsL), annotation(eset_rma))
+SymbolsA <- getSYMBOL (rownames(topTab_AvsL), annotation(eset_rma))
+ExpressAndTop_AvsL <- cbind(SymbolsA, EntrezsA, topTab_AvsL, exprs(eset_filtered)[rownames(topTab_AvsL), c(1:4,10:14)])
+write.csv2(ExpressAndTop_AvsL, file.path(resultsDir, "ExpressAndTop_CvsM.csv2"))
+```
+
+
+```{r}
+EntrezsA <- getEG (rownames(topTab_BvsL), annotation(eset_rma))
+SymbolsA <- getSYMBOL (rownames(topTab_BvsL), annotation(eset_rma))
+ExpressAndTop_BvsL <- cbind(SymbolsA, EntrezsA, topTab_BvsL, exprs(eset_filtered)[rownames(topTab_BvsL),5:14])
+write.csv2(ExpressAndTop_BvsL, file.path(resultsDir, "ExpressAndTop_CvsNM.csv2"))
+
+
+## ----prepareData, eval=TRUE----------------------------------------------
+probeNames<-rownames(res)
+probeNames.selected<-probeNames[sum.res.rows!=0]
+exprs2cluster <-exprs(eset_rma)[probeNames.selected,]
+colnames(exprs2cluster)<-sampleNames
+color.map <- function(grupo) { 
+  if (grupo=="67NR"){
+    c<- "yellow" 
+  }else{ 
+    if (grupo=="4T1"){
+      c<- "red"
+    }else{
+      c<- "blue"
+   }
+  }
+return(c)}
+```
+
+
+```{r}
+## ----plotHeatMap2,  eval=TRUE--------------------------------------------
+grupColors <- unlist(lapply(pData(eset_rma)$Group, color.map))
+require("gplots")
+heatmap.2(exprs2cluster, 
+          col=bluered(75), scale="row",
+          ColSideColors=grupColors, key=TRUE, symkey=FALSE, 
+          density.info="none", trace="none", cexCol=1)
+```
+
+La gráfica debería agrupar las muestras según cada grupo. Sin embargo, parece ser que hay algo de ruido en los datos que no ha podido ser eliminado para que la gráfica se represente de mejor forma con los datos agrupados. Aún así, podemos apreciar claramente que los genes de los grupos con células cancerosas tienen más similitud entre ellas que cualquiera de los dos con el grupo de control.
+
+Aquí se observan también los genes en cada una de las muestras. Teniendo en cuenta que la oscuridad nos indica una mayor expresión, observamos algunas diferencias dependiendo de las muestras y genes que seleccionemos. Si nos fijamos, por ejemplo, en las filas 6,7 y 8, podemos ver que existen diferencias claras entre los grupos *Metastásicos y No Metastásicos*. Serán estos a los que prestemos mayor atención para sacar conclusiones notables en la presencia de factores que desarrollan los llamados nichos premetastásicos.
+
+```{r, eval=FALSE}
+# ENRICHMENT ANALYSIS
+listOfTables <- list(AvsB = topTab_AvsB, AvsL = topTab_AvsL, BvsL = topTab_BvsL) 
+for (i in 1:length(listOfTables)){
+  # Seleccionamos la "topTable"
+  topTab <- listOfTables[[i]]
+  # Definimos el universo de genes: todos los que se han incluido en el análisis
+  # EL programa trabaja con identificadores "entrez" y no admite duplicados
+  
+  entrezUniverse = unique(getEG(rownames(topTab), "mouse4302.db"))
+  
+  # Escogemos los grupos de sondas a incluir en el análisis
+  # Este análisis trabaja bien con varios centenares de genes 
+  # por lo que es habitual basarse en p-valores sin ajustar para incluirlos
+  
+  whichGenes<-topTab["adj.P.Val"]<0.05
+  geneIds <-   unique(getEG(rownames(topTab)[whichGenes],"mouse4302.db"))
+  
+  # Creamos los "hiperparámetros" en que se basa el análisis
+  GOparams = new("GOHyperGParams",
+    geneIds=geneIds, universeGeneIds=entrezUniverse,
+    annotation="org.Hs.eg.db", ontology="BP",
+    pvalueCutoff=0.001, conditional=FALSE,
+    testDirection="over")
+  KEGGparams = new("KEGGHyperGParams",
+    geneIds=geneIds, universeGeneIds=entrezUniverse,
+    annotation="org.Hs.eg.db",  
+    pvalueCutoff=0.01, testDirection="over")
+
+  # Ejecutamos los análisis
+
+  GOhyper = hyperGTest(GOparams)
+  KEGGhyper = hyperGTest(KEGGparams)
+  
+# Creamos un informe html con los resultados
+   comparison = names(listOfTables)[i]
+   GOfilename =file.path(resultsDir, 
+     paste("GOResults.",comparison,".html", sep=""))
+   KEGGfilename =file.path(resultsDir, 
+     paste("KEGGResults.",comparison,".html", sep=""))
+  htmlReport(GOhyper, file = GOfilename, summary.args=list("htmlLinks"=TRUE))
+  htmlReport(KEGGhyper, file = KEGGfilename, summary.args=list("htmlLinks"=TRUE))
+}
+```
+
+
+```{r, eval=FALSE}
+## ----preparaGenestes-----------------------------------------------------
+require(annotate)
+require(hgu133plus2.db)
+geneSets <- read.csv(file.path(dataDir, "PBTs_all_affy.csv"))
+
+## gene sets a comparar amb cadascuna de les toptable
+gsEntrez <- list()
+for (i in 1:dim(geneSets)[2]) {
+  gs <- as.character(geneSets[,i])
+  gs <- gs[gs != ""]
+  gsE <- getEG(gs, data = "hgu133plus2.db")
+  gsEntrez[[colnames(geneSets[i])]] <- unique(gsE[!is.na(gsE)])
+}
+
+gsSymbol <- list()
+for (i in 1:dim(geneSets)[2]) {
+  gs <- as.character(geneSets[,i])
+  gs <- gs[gs != ""]
+  gsSymb <- getSYMBOL(gs,data = "hgu133plus2.db")
+  gsSymbol[[colnames(geneSets[i])]] <- unique(gsSymb[!is.na(gsSymb)])
+}
+genesetsNames <- names(gsEntrez)
+
+## ----prepareGSEA---------------------------------------------------------
+require(genefilter)
+esetUnique <- featureFilter(eset_rma, require.entrez=TRUE, remove.dupEntrez=FALSE)
+dim(exprs(esetUnique))
+esetUnique <- featureFilter(eset_rma, require.entrez=TRUE, remove.dupEntrez=TRUE)
+dim(exprs(esetUnique))
+esetAB<- esetUnique[,pData(esetUnique)$Group %in% c("A","B")]
+pData(esetAB)
+xAB <- exprs(esetAB)
+yAB <- ifelse(pData(esetAB)$Group=="A", 1, 2)
+entrezs<-getEG(rownames(xAB), "hgu133a")
+simbols <-getSYMBOL(rownames(xAB), "hgu133a")
+
+## ----execGSA-------------------------------------------------------------
+require(GSA)
+GSA.obj<-GSA(xAB, yAB, genenames=entrezs, genesets=gsEntrez,  resp.type="Two class unpaired", nperms=100)
+GSA.listsets(GSA.obj, geneset.names=genesetsNames, FDRcut=.5)
+
+## ----GSAbyKEGG, eco=FALSE, message=FALSE---------------------------------
+geneset.obj <- GSA.read.gmt(file.path(dataDir,"c2.cp.kegg.v5.1.entrez.gmt"))
+GSA.obj2 <- GSA(xAB, yAB, genenames=entrezs, genesets=geneset.obj$genesets,  resp.type="Two class unpaired", nperms=100)
+GSA.listsets (GSA.obj2, geneset.names=geneset.obj$geneset.names, FDRcut=.5)
+
+## ----listaArchivos, echo=FALSE, results='asis', eval=TRUE----------------
+require(gdata)
+listaArchivos <- dir(resultsDir) 
+data.frame(listaArchivos)
+
+## ----listaArchivos2html,echo=FALSE, eval=TRUE----------------------------
+require(hwriter)
+hwrite(listaArchivos,file.path(resultsDir, "listaArchivos.html"))
+
+
+```
+
+
+# Discusión
+
+Como ya hemos comentado en algunas partes del proyecto, los análisis del cluster jerárquico no mostraban agrupaciones lógicas ya que las muestras no se veían agrupadas correctamente. Incluso habiendo realizado la normalización de los datos para eliminar el ruido. En el artículo del análisis también se muestra el cluster jerárquico de la misma forma que nosotros hemos conseguido.
+
+A pesar de ello, hemos podido llevar a cabo el análisis e identificar los genes que se encontraban expresados significativamente diferentes entre los grupos. Deberíamos de mirar de forma exhaustiva la forma en que los datos se han recogido para descubrir el motivo de dicha agrupación.
+
+Por otro lado, el análisis de significación biológica no ha sido posible realizarlo porque no he sabido conectar los identificadores de los genes con la base de datos de NCBI.
+
+```{r}
+# 6. Conclusión: NO HACE FALTA. Vuestro “rol” aquí es técnico. Como bioinformáticos se os presupondrá la capacidad de manejar la información biológica mediante los programas adecuados, pero ello no implica que debáis tener los conocimientos específicos que puede requerir la interpretación biológica de los resultados.
+```

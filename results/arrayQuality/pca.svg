@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="ISO8859-1"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="341.88px" height="385.08px" viewBox="0 0 341.88 385.08" version="1.1" id="Fig:pca">
+  <metadata xmlns:gridsvg="http://www.stat.auckland.ac.nz/~paul/R/gridSVG/">
+    <gridsvg:generator name="gridSVG" version="1.7-2" time="2020-11-26 21:44:14"/>
+    <gridsvg:argument name="name" value="C:/Users/jesus/Dropbox/01 Trabajo/01 Trabajos Activos/Jordi Master Biotec CEL/01 Proyecto Microarrays/results/arrayQuality/pca.svg"/>
+    <gridsvg:argument name="exportCoords" value="none"/>
+    <gridsvg:argument name="exportMappings" value="none"/>
+    <gridsvg:argument name="exportJS" value="none"/>
+    <gridsvg:argument name="res" value="72"/>
+    <gridsvg:argument name="prefix" value="Fig:pca"/>
+    <gridsvg:argument name="addClasses" value="FALSE"/>
+    <gridsvg:argument name="indent" value="TRUE"/>
+    <gridsvg:argument name="htmlWrapper" value="FALSE"/>
+    <gridsvg:argument name="usePaths" value="none"/>
+    <gridsvg:argument name="uniqueNames" value="TRUE"/>
+    <gridsvg:separator name="id.sep" value="."/>
+    <gridsvg:separator name="gPath.sep" value="::"/>
+    <gridsvg:separator name="vpPath.sep" value="::"/>
+  </metadata>
+  <g transform="translate(0, 385.08) scale(1, -1)">
+    <g id="Fig:pcagridSVG" fill="none" stroke="rgb(0,0,0)" stroke-dasharray="none" stroke-width="0.75" font-size="12" font-family="Helvetica, Arial, FreeSans, Liberation Sans, Nimbus Sans L, sans-serif" opacity="1" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-opacity="1" fill-opacity="0" font-weight="normal" font-style="normal">
+      <defs>
+        <symbol id="Fig:pcagridSVG.pch19" viewBox="-5 -5 10 10" overflow="visible">
+          <circle cx="0" cy="0" r="3.75"/>
+        </symbol>
+      </defs>
+      <g id="Fig:pcaplot_01.background.1">
+        <rect id="Fig:pcaplot_01.background.1.1" x="0" y="0" width="341.88" height="385.08" transform="" fill="none" stroke="none" stroke-opacity="0" fill-opacity="0"/>
+      </g>
+      <g id="Fig:pcaplot_01.toplevel.vp.1" font-size="12">
+        <g id="Fig:pcaplot_01.main.vp.1">
+          <g id="Fig:pcaGRID.VP.9.1">
+            <g id="Fig:pca.key.frame.1">
+              <g id="Fig:pcaGRID.VP.10.1">
+                <g id="Fig:pcaGRID.cellGrob.18.1">
+                  <g id="Fig:pca.key.background.1">
+                    <rect id="Fig:pca.key.background.1.1" x="125.58" y="321.12" width="90.72" height="34.49" transform="" fill="none" opacity="1" stroke="none" stroke-opacity="0" fill-opacity="0"/>
+                  </g>
+                </g>
+              </g>
+              <g id="Fig:pcaGRID.VP.11.1">
+                <g id="Fig:pcaGRID.cellGrob.19.1">
+                  <g id="Fig:pca.key.rect.1.1.1">
+                    <rect id="Fig:pca.key.rect.1.1.1.1" x="132.25" y="344.11" width="33.36" height="11.5" transform="" opacity="1" fill="rgb(228,26,28)" stroke="rgb(0,0,0)" stroke-opacity="1" fill-opacity="1"/>
+                  </g>
+                </g>
+              </g>
+              <g id="Fig:pcaGRID.VP.12.1">
+                <g id="Fig:pcaGRID.cellGrob.20.1">
+                  <g id="Fig:pca.key.rect.1.2.1">
+                    <rect id="Fig:pca.key.rect.1.2.1.1" x="132.25" y="332.61" width="33.36" height="11.5" transform="" opacity="1" fill="rgb(55,126,184)" stroke="rgb(0,0,0)" stroke-opacity="1" fill-opacity="1"/>
+                  </g>
+                </g>
+              </g>
+              <g id="Fig:pcaGRID.VP.13.1">
+                <g id="Fig:pcaGRID.cellGrob.21.1">
+                  <g id="Fig:pca.key.rect.1.3.1">
+                    <rect id="Fig:pca.key.rect.1.3.1.1" x="132.25" y="321.12" width="33.36" height="11.5" transform="" opacity="1" fill="rgb(77,175,74)" stroke="rgb(0,0,0)" stroke-opacity="1" fill-opacity="1"/>
+                  </g>
+                </g>
+              </g>
+              <g id="Fig:pcaGRID.VP.14.1">
+                <g id="Fig:pcaGRID.cellGrob.22.1">
+                  <g id="Fig:pca.key.text.2.1.1">
+                    <g id="Fig:pca.key.text.2.1.1.1" transform="translate(178.96, 349.86)" stroke-width="0.1">
+                      <g id="Fig:pca.key.text.2.1.1.1.scale" transform="scale(1, -1)">
+                        <text x="0" y="0" id="Fig:pca.key.text.2.1.1.1.text" text-anchor="start" stroke="rgb(0,0,0)" opacity="1" fill="rgb(0,0,0)" stroke-opacity="1" fill-opacity="1" font-size="12" font-weight="normal" font-style="normal">
+                          <tspan id="Fig:pca.key.text.2.1.1.1.tspan.1" dy="4.31" x="0">4T1</tspan>
+                        </text>
+                      </g>
+                    </g>
+                  </g>
+                </g>
+              </g>
+              <g id="Fig:pcaGRID.VP.15.1">
+                <g id="Fig:pcaGRID.cellGrob.23.1">
+                  <g id="Fig:pca.key.text.2.2.1">
+                    <g id="Fig:pca.key.text.2.2.1.1" transform="translate(178.96, 338.36)" stroke-width="0.1">
+                      <g id="Fig:pca.key.text.2.2.1.1.scale" transform="scale(1, -1)">
+                        <text x="0" y="0" id="Fig:pca.key.text.2.2.1.1.text" text-anchor="start" stroke="rgb(0,0,0)" opacity="1" fill="rgb(0,0,0)" stroke-opacity="1" fill-opacity="1" font-size="12" font-weight="normal" font-style="normal">
+                          <tspan id="Fig:pca.key.text.2.2.1.1.tspan.1" dy="4.31" x="0">67NR</tspan>
+                        </text>
+                      </g>
+                    </g>
+                  </g>
+                </g>
+              </g>
+              <g id="Fig:pcaGRID.VP.16.1">
+                <g id="Fig:pcaGRID.cellGrob.24.1">
+                  <g id="Fig:pca.key.text.2.3.1">
+                    <g id="Fig:pca.key.text.2.3.1.1" transform="translate(178.96, 326.87)" stroke-width="0.1">
+                      <g id="Fig:pca.key.text.2.3.1.1.scale" transform="scale(1, -1)">
+                        <text x="0" y="0" id="Fig:pca.key.text.2.3.1.1.text" text-anchor="start" stroke="rgb(0,0,0)" opacity="1" fill="rgb(0,0,0)" stroke-opacity="1" fill-opacity="1" font-size="12" font-weight="normal" font-style="normal">
+                          <tspan id="Fig:pca.key.text.2.3.1.1.tspan.1" dy="4.31" x="0">Naive</tspan>
+                        </text>
+                      </g>
+                    </g>
+                  </g>
+                </g>
+              </g>
+            </g>
+          </g>
+        </g>
+        <g id="Fig:pcaplot_01.xlab.vp.1">
+          <g id="Fig:pcaplot_01.xlab.1">
+            <g id="Fig:pcaplot_01.xlab.1.1" transform="translate(194.85, 39.78)" stroke-width="0.1">
+              <g id="Fig:pcaplot_01.xlab.1.1.scale" transform="scale(1, -1)">
+                <text x="0" y="0" id="Fig:pcaplot_01.xlab.1.1.text" text-anchor="middle" opacity="1" stroke="rgb(0,0,0)" fill="rgb(0,0,0)" stroke-opacity="1" fill-opacity="1" font-size="12" font-weight="normal" font-style="normal">
+                  <tspan id="Fig:pcaplot_01.xlab.1.1.tspan.1" dy="4.31" x="0">PC1</tspan>
+                </text>
+              </g>
+            </g>
+          </g>
+        </g>
+        <g id="Fig:pcaplot_01.ylab.vp.1">
+          <g id="Fig:pcaplot_01.ylab.1">
+            <g id="Fig:pcaplot_01.ylab.1.1" transform="translate(10.31, 183.19)" stroke-width="0.1">
+              <g id="Fig:pcaplot_01.ylab.1.1.scale" transform="scale(1, -1)">
+                <text x="0" y="0" id="Fig:pcaplot_01.ylab.1.1.text" transform="rotate(-90)" text-anchor="middle" opacity="1" stroke="rgb(0,0,0)" fill="rgb(0,0,0)" stroke-opacity="1" fill-opacity="1" font-size="12" font-weight="normal" font-style="normal">
+                  <tspan id="Fig:pcaplot_01.ylab.1.1.tspan.1" dy="4.31" x="0">PC2</tspan>
+                </text>
+              </g>
+            </g>
+          </g>
+        </g>
+        <g id="Fig:pcaplot_01.figure.vp.1"/>
+        <defs>
+          <clipPath id="Fig:pcaplot_01.panel.1.1.vp.1.clipPath">
+            <rect x="76.82" y="74.28" width="236.05" height="217.83" fill="none" stroke="none"/>
+          </clipPath>
+        </defs>
+        <g id="Fig:pcaplot_01.panel.1.1.vp.1" clip-path="url(#Fig:pcaplot_01.panel.1.1.vp.1.clipPath)"/>
+        <g id="Fig:pcaplot_01.strip.1.1.off.vp.1">
+          <g id="Fig:pcaplot_01.ticks.top.panel.1.1.1">
+            <polyline id="Fig:pcaplot_01.ticks.top.panel.1.1.1.1" points="117.56,292.11 117.56,297.78" stroke="rgb(0,0,0)" opacity="1" stroke-dasharray="none" stroke-width="0.75" stroke-opacity="1" fill="none"/>
+            <polyline id="Fig:pcaplot_01.ticks.top.panel.1.1.1.2" points="158.43,292.11 158.43,297.78" stroke="rgb(0,0,0)" opacity="1" stroke-dasharray="none" stroke-width="0.75" stroke-opacity="1" fill="none"/>
+            <polyline id="Fig:pcaplot_01.ticks.top.panel.1.1.1.3" points="199.3,292.11 199.3,297.78" stroke="rgb(0,0,0)" opacity="1" stroke-dasharray="none" stroke-width="0.75" stroke-opacity="1" fill="none"/>
+            <polyline id="Fig:pcaplot_01.ticks.top.panel.1.1.1.4" points="240.16,292.11 240.16,297.78" stroke="rgb(0,0,0)" opacity="1" stroke-dasharray="none" stroke-width="0.75" stroke-opacity="1" fill="none"/>
+            <polyline id="Fig:pcaplot_01.ticks.top.panel.1.1.1.5" points="281.03,292.11 281.03,297.78" stroke="rgb(0,0,0)" opacity="1" stroke-dasharray="none" stroke-width="0.75" stroke-opacity="1" fill="none"/>
+          </g>
+        </g>
+        <g id="Fig:pcaplot_01.strip.left.1.1.off.vp.1">
+          <g id="Fig:pcaplot_01.ticks.left.panel.1.1.1">
+            <polyline id="Fig:pcaplot_01.ticks.left.panel.1.1.1.1" points="76.82,81.24 71.15,81.24" stroke="rgb(0,0,0)" opacity="1" stroke-dasharray="none" stroke-width="0.75" stroke-opacity="1" fill="none"/>
+            <polyline id="Fig:pcaplot_01.ticks.left.panel.1.1.1.2" points="76.82,122.1 71.15,122.1" stroke="rgb(0,0,0)" opacity="1" stroke-dasharray="none" stroke-width="0.75" stroke-opacity="1" fill="none"/>
+            <polyline id="Fig:pcaplot_01.ticks.left.panel.1.1.1.3" points="76.82,162.97 71.15,162.97" stroke="rgb(0,0,0)" opacity="1" stroke-dasharray="none" stroke-width="0.75" stroke-opacity="1" fill="none"/>
+            <polyline id="Fig:pcaplot_01.ticks.left.panel.1.1.1.4" points="76.82,203.84 71.15,203.84" stroke="rgb(0,0,0)" opacity="1" stroke-dasharray="none" stroke-width="0.75" stroke-opacity="1" fill="none"/>
+            <polyline id="Fig:pcaplot_01.ticks.left.panel.1.1.1.5" points="76.82,244.7 71.15,244.7" stroke="rgb(0,0,0)" opacity="1" stroke-dasharray="none" stroke-width="0.75" stroke-opacity="1" fill="none"/>
+            <polyline id="Fig:pcaplot_01.ticks.left.panel.1.1.1.6" points="76.82,285.57 71.15,285.57" stroke="rgb(0,0,0)" opacity="1" stroke-dasharray="none" stroke-width="0.75" stroke-opacity="1" fill="none"/>
+          </g>
+          <g id="Fig:pcaplot_01.ticklabels.left.panel.1.1.1">
+            <g id="Fig:pcaplot_01.ticklabels.left.panel.1.1.1.1" transform="translate(65.49, 81.24)" stroke-width="0.1">
+              <g id="Fig:pcaplot_01.ticklabels.left.panel.1.1.1.1.scale" transform="scale(1, -1)">
+                <text x="0" y="0" id="Fig:pcaplot_01.ticklabels.left.panel.1.1.1.1.text" text-anchor="end" stroke="rgb(0,0,0)" opacity="1" fill="rgb(0,0,0)" stroke-opacity="1" fill-opacity="1" font-size="9.6" font-weight="normal" font-style="normal">
+                  <tspan id="Fig:pcaplot_01.ticklabels.left.panel.1.1.1.1.tspan.1" dy="3.59" x="0">-300000</tspan>
+                </text>
+              </g>
+            </g>
+            <g id="Fig:pcaplot_01.ticklabels.left.panel.1.1.1.2" transform="translate(65.49, 122.1)" stroke-width="0.1">
+              <g id="Fig:pcaplot_01.ticklabels.left.panel.1.1.1.2.scale" transform="scale(1, -1)">
+                <text x="0" y="0" id="Fig:pcaplot_01.ticklabels.left.panel.1.1.1.2.text" text-anchor="end" stroke="rgb(0,0,0)" opacity="1" fill="rgb(0,0,0)" stroke-opacity="1" fill-opacity="1" font-size="9.6" font-weight="normal" font-style="normal">
+                  <tspan id="Fig:pcaplot_01.ticklabels.left.panel.1.1.1.2.tspan.1" dy="3.59" x="0">-200000</tspan>
+                </text>
+              </g>
+            </g>
+            <g id="Fig:pcaplot_01.ticklabels.left.panel.1.1.1.3" transform="translate(65.49, 162.97)" stroke-width="0.1">
+              <g id="Fig:pcaplot_01.ticklabels.left.panel.1.1.1.3.scale" transform="scale(1, -1)">
+                <text x="0" y="0" id="Fig:pcaplot_01.ticklabels.left.panel.1.1.1.3.text" text-anchor="end" stroke="rgb(0,0,0)" opacity="1" fill="rgb(0,0,0)" stroke-opacity="1" fill-opacity="1" font-size="9.6" font-weight="normal" font-style="normal">
+                  <tspan id="Fig:pcaplot_01.ticklabels.left.panel.1.1.1.3.tspan.1" dy="3.59" x="0">-100000</tspan>
+                </text>
+              </g>
+            </g>
+            <g id="Fig:pcaplot_01.ticklabels.left.panel.1.1.1.4" transform="translate(65.49, 203.84)" stroke-width="0.1">
+              <g id="Fig:pcaplot_01.ticklabels.left.panel.1.1.1.4.scale" transform="scale(1, -1)">
+                <text x="0" y="0" id="Fig:pcaplot_01.ticklabels.left.panel.1.1.1.4.text" text-anchor="end" stroke="rgb(0,0,0)" opacity="1" fill="rgb(0,0,0)" stroke-opacity="1" fill-opacity="1" font-size="9.6" font-weight="normal" font-style="normal">
+                  <tspan id="Fig:pcaplot_01.ticklabels.left.panel.1.1.1.4.tspan.1" dy="3.59" x="0">0</tspan>
+                </text>
+              </g>
+            </g>
+            <g id="Fig:pcaplot_01.ticklabels.left.panel.1.1.1.5" transform="translate(65.49, 244.7)" stroke-width="0.1">
+              <g id="Fig:pcaplot_01.ticklabels.left.panel.1.1.1.5.scale" transform="scale(1, -1)">
+                <text x="0" y="0" id="Fig:pcaplot_01.ticklabels.left.panel.1.1.1.5.text" text-anchor="end" stroke="rgb(0,0,0)" opacity="1" fill="rgb(0,0,0)" stroke-opacity="1" fill-opacity="1" font-size="9.6" font-weight="normal" font-style="normal">
+                  <tspan id="Fig:pcaplot_01.ticklabels.left.panel.1.1.1.5.tspan.1" dy="3.59" x="0">100000</tspan>
+                </text>
+              </g>
+            </g>
+            <g id="Fig:pcaplot_01.ticklabels.left.panel.1.1.1.6" transform="translate(65.49, 285.57)" stroke-width="0.1">
+              <g id="Fig:pcaplot_01.ticklabels.left.panel.1.1.1.6.scale" transform="scale(1, -1)">
+                <text x="0" y="0" id="Fig:pcaplot_01.ticklabels.left.panel.1.1.1.6.text" text-anchor="end" stroke="rgb(0,0,0)" opacity="1" fill="rgb(0,0,0)" stroke-opacity="1" fill-opacity="1" font-size="9.6" font-weight="normal" font-style="normal">
+                  <tspan id="Fig:pcaplot_01.ticklabels.left.panel.1.1.1.6.tspan.1" dy="3.59" x="0">200000</tspan>
+                </text>
+              </g>
+            </g>
+          </g>
+        </g>
+        <g id="Fig:pcaplot_01.panel.1.1.off.vp.1">
+          <g id="Fig:pcaplot_01.ticks.bottom.panel.1.1.1">
+            <polyline id="Fig:pcaplot_01.ticks.bottom.panel.1.1.1.1" points="117.56,74.28 117.56,68.61" stroke="rgb(0,0,0)" opacity="1" stroke-dasharray="none" stroke-width="0.75" stroke-opacity="1" fill="none"/>
+            <polyline id="Fig:pcaplot_01.ticks.bottom.panel.1.1.1.2" points="158.43,74.28 158.43,68.61" stroke="rgb(0,0,0)" opacity="1" stroke-dasharray="none" stroke-width="0.75" stroke-opacity="1" fill="none"/>
+            <polyline id="Fig:pcaplot_01.ticks.bottom.panel.1.1.1.3" points="199.3,74.28 199.3,68.61" stroke="rgb(0,0,0)" opacity="1" stroke-dasharray="none" stroke-width="0.75" stroke-opacity="1" fill="none"/>
+            <polyline id="Fig:pcaplot_01.ticks.bottom.panel.1.1.1.4" points="240.16,74.28 240.16,68.61" stroke="rgb(0,0,0)" opacity="1" stroke-dasharray="none" stroke-width="0.75" stroke-opacity="1" fill="none"/>
+            <polyline id="Fig:pcaplot_01.ticks.bottom.panel.1.1.1.5" points="281.03,74.28 281.03,68.61" stroke="rgb(0,0,0)" opacity="1" stroke-dasharray="none" stroke-width="0.75" stroke-opacity="1" fill="none"/>
+          </g>
+          <g id="Fig:pcaplot_01.ticklabels.bottom.panel.1.1.1">
+            <g id="Fig:pcaplot_01.ticklabels.bottom.panel.1.1.1.1" transform="translate(117.56, 62.94)" stroke-width="0.1">
+              <g id="Fig:pcaplot_01.ticklabels.bottom.panel.1.1.1.1.scale" transform="scale(1, -1)">
+                <text x="0" y="0" id="Fig:pcaplot_01.ticklabels.bottom.panel.1.1.1.1.text" text-anchor="middle" stroke="rgb(0,0,0)" opacity="1" fill="rgb(0,0,0)" stroke-opacity="1" fill-opacity="1" font-size="9.6" font-weight="normal" font-style="normal">
+                  <tspan id="Fig:pcaplot_01.ticklabels.bottom.panel.1.1.1.1.tspan.1" dy="7.18" x="0">-100000</tspan>
+                </text>
+              </g>
+            </g>
+            <g id="Fig:pcaplot_01.ticklabels.bottom.panel.1.1.1.2" transform="translate(158.43, 62.94)" stroke-width="0.1">
+              <g id="Fig:pcaplot_01.ticklabels.bottom.panel.1.1.1.2.scale" transform="scale(1, -1)">
+                <text x="0" y="0" id="Fig:pcaplot_01.ticklabels.bottom.panel.1.1.1.2.text" text-anchor="middle" stroke="rgb(0,0,0)" opacity="1" fill="rgb(0,0,0)" stroke-opacity="1" fill-opacity="1" font-size="9.6" font-weight="normal" font-style="normal">
+                  <tspan id="Fig:pcaplot_01.ticklabels.bottom.panel.1.1.1.2.tspan.1" dy="7.18" x="0">0</tspan>
+                </text>
+              </g>
+            </g>
+            <g id="Fig:pcaplot_01.ticklabels.bottom.panel.1.1.1.3" transform="translate(199.3, 62.94)" stroke-width="0.1">
+              <g id="Fig:pcaplot_01.ticklabels.bottom.panel.1.1.1.3.scale" transform="scale(1, -1)">
+                <text x="0" y="0" id="Fig:pcaplot_01.ticklabels.bottom.panel.1.1.1.3.text" text-anchor="middle" stroke="rgb(0,0,0)" opacity="1" fill="rgb(0,0,0)" stroke-opacity="1" fill-opacity="1" font-size="9.6" font-weight="normal" font-style="normal">
+                  <tspan id="Fig:pcaplot_01.ticklabels.bottom.panel.1.1.1.3.tspan.1" dy="7.18" x="0">100000</tspan>
+                </text>
+              </g>
+            </g>
+            <g id="Fig:pcaplot_01.ticklabels.bottom.panel.1.1.1.4" transform="translate(240.16, 62.94)" stroke-width="0.1">
+              <g id="Fig:pcaplot_01.ticklabels.bottom.panel.1.1.1.4.scale" transform="scale(1, -1)">
+                <text x="0" y="0" id="Fig:pcaplot_01.ticklabels.bottom.panel.1.1.1.4.text" text-anchor="middle" stroke="rgb(0,0,0)" opacity="1" fill="rgb(0,0,0)" stroke-opacity="1" fill-opacity="1" font-size="9.6" font-weight="normal" font-style="normal">
+                  <tspan id="Fig:pcaplot_01.ticklabels.bottom.panel.1.1.1.4.tspan.1" dy="7.18" x="0">200000</tspan>
+                </text>
+              </g>
+            </g>
+            <g id="Fig:pcaplot_01.ticklabels.bottom.panel.1.1.1.5" transform="translate(281.03, 62.94)" stroke-width="0.1">
+              <g id="Fig:pcaplot_01.ticklabels.bottom.panel.1.1.1.5.scale" transform="scale(1, -1)">
+                <text x="0" y="0" id="Fig:pcaplot_01.ticklabels.bottom.panel.1.1.1.5.text" text-anchor="middle" stroke="rgb(0,0,0)" opacity="1" fill="rgb(0,0,0)" stroke-opacity="1" fill-opacity="1" font-size="9.6" font-weight="normal" font-style="normal">
+                  <tspan id="Fig:pcaplot_01.ticklabels.bottom.panel.1.1.1.5.tspan.1" dy="7.18" x="0">300000</tspan>
+                </text>
+              </g>
+            </g>
+          </g>
+          <g id="Fig:pcaplot_01.ticks.right.panel.1.1.1">
+            <polyline id="Fig:pcaplot_01.ticks.right.panel.1.1.1.1" points="312.87,81.24 318.54,81.24" stroke="rgb(0,0,0)" opacity="1" stroke-dasharray="none" stroke-width="0.75" stroke-opacity="1" fill="none"/>
+            <polyline id="Fig:pcaplot_01.ticks.right.panel.1.1.1.2" points="312.87,122.1 318.54,122.1" stroke="rgb(0,0,0)" opacity="1" stroke-dasharray="none" stroke-width="0.75" stroke-opacity="1" fill="none"/>
+            <polyline id="Fig:pcaplot_01.ticks.right.panel.1.1.1.3" points="312.87,162.97 318.54,162.97" stroke="rgb(0,0,0)" opacity="1" stroke-dasharray="none" stroke-width="0.75" stroke-opacity="1" fill="none"/>
+            <polyline id="Fig:pcaplot_01.ticks.right.panel.1.1.1.4" points="312.87,203.84 318.54,203.84" stroke="rgb(0,0,0)" opacity="1" stroke-dasharray="none" stroke-width="0.75" stroke-opacity="1" fill="none"/>
+            <polyline id="Fig:pcaplot_01.ticks.right.panel.1.1.1.5" points="312.87,244.7 318.54,244.7" stroke="rgb(0,0,0)" opacity="1" stroke-dasharray="none" stroke-width="0.75" stroke-opacity="1" fill="none"/>
+            <polyline id="Fig:pcaplot_01.ticks.right.panel.1.1.1.6" points="312.87,285.57 318.54,285.57" stroke="rgb(0,0,0)" opacity="1" stroke-dasharray="none" stroke-width="0.75" stroke-opacity="1" fill="none"/>
+          </g>
+        </g>
+        <defs>
+          <clipPath id="Fig:pcaplot_01.panel.1.1.vp.2.clipPath">
+            <rect x="76.82" y="74.28" width="236.05" height="217.83" fill="none" stroke="none"/>
+          </clipPath>
+        </defs>
+        <g id="Fig:pcaplot_01.panel.1.1.vp.2" clip-path="url(#Fig:pcaplot_01.panel.1.1.vp.2.clipPath)">
+          <g id="Fig:pcaplot_01.xyplot.points.panel.1.1.1">
+            <use id="Fig:pcaplot_01.xyplot.points.panel.1.1.1.1" href="#Fig:pcagridSVG.pch19" x="130.38" y="212.81" width="8" height="8" transform=" translate(-4,-4)" stroke="rgb(77,175,74)" stroke-width="0.94" opacity="1" fill="rgb(77,175,74)" font-size="8" stroke-opacity="1" fill-opacity="1" font-weight="normal" font-style="normal"/>
+            <use id="Fig:pcaplot_01.xyplot.points.panel.1.1.1.2" href="#Fig:pcagridSVG.pch19" x="167.13" y="193.74" width="8" height="8" transform=" translate(-4,-4)" stroke="rgb(77,175,74)" stroke-width="0.94" opacity="1" fill="rgb(77,175,74)" font-size="8" stroke-opacity="1" fill-opacity="1" font-weight="normal" font-style="normal"/>
+            <use id="Fig:pcaplot_01.xyplot.points.panel.1.1.1.3" href="#Fig:pcagridSVG.pch19" x="298.38" y="278.73" width="8" height="8" transform=" translate(-4,-4)" stroke="rgb(77,175,74)" stroke-width="0.94" opacity="1" fill="rgb(77,175,74)" font-size="8" stroke-opacity="1" fill-opacity="1" font-weight="normal" font-style="normal"/>
+            <use id="Fig:pcaplot_01.xyplot.points.panel.1.1.1.4" href="#Fig:pcagridSVG.pch19" x="100.37" y="191.76" width="8" height="8" transform=" translate(-4,-4)" stroke="rgb(77,175,74)" stroke-width="0.94" opacity="1" fill="rgb(77,175,74)" font-size="8" stroke-opacity="1" fill-opacity="1" font-weight="normal" font-style="normal"/>
+            <use id="Fig:pcaplot_01.xyplot.points.panel.1.1.1.5" href="#Fig:pcagridSVG.pch19" x="122.39" y="134.96" width="8" height="8" transform=" translate(-4,-4)" stroke="rgb(55,126,184)" stroke-width="0.94" opacity="1" fill="rgb(55,126,184)" font-size="8" stroke-opacity="1" fill-opacity="1" font-weight="normal" font-style="normal"/>
+            <use id="Fig:pcaplot_01.xyplot.points.panel.1.1.1.6" href="#Fig:pcagridSVG.pch19" x="97.74" y="228.54" width="8" height="8" transform=" translate(-4,-4)" stroke="rgb(55,126,184)" stroke-width="0.94" opacity="1" fill="rgb(55,126,184)" font-size="8" stroke-opacity="1" fill-opacity="1" font-weight="normal" font-style="normal"/>
+            <use id="Fig:pcaplot_01.xyplot.points.panel.1.1.1.7" href="#Fig:pcagridSVG.pch19" x="189.03" y="196.94" width="8" height="8" transform=" translate(-4,-4)" stroke="rgb(55,126,184)" stroke-width="0.94" opacity="1" fill="rgb(55,126,184)" font-size="8" stroke-opacity="1" fill-opacity="1" font-weight="normal" font-style="normal"/>
+            <use id="Fig:pcaplot_01.xyplot.points.panel.1.1.1.8" href="#Fig:pcagridSVG.pch19" x="258.14" y="87.65" width="8" height="8" transform=" translate(-4,-4)" stroke="rgb(55,126,184)" stroke-width="0.94" opacity="1" fill="rgb(55,126,184)" font-size="8" stroke-opacity="1" fill-opacity="1" font-weight="normal" font-style="normal"/>
+            <use id="Fig:pcaplot_01.xyplot.points.panel.1.1.1.9" href="#Fig:pcagridSVG.pch19" x="101.31" y="238.39" width="8" height="8" transform=" translate(-4,-4)" stroke="rgb(55,126,184)" stroke-width="0.94" opacity="1" fill="rgb(55,126,184)" font-size="8" stroke-opacity="1" fill-opacity="1" font-weight="normal" font-style="normal"/>
+            <use id="Fig:pcaplot_01.xyplot.points.panel.1.1.1.10" href="#Fig:pcagridSVG.pch19" x="91.32" y="238.02" width="8" height="8" transform=" translate(-4,-4)" stroke="rgb(228,26,28)" stroke-width="0.94" opacity="1" fill="rgb(228,26,28)" font-size="8" stroke-opacity="1" fill-opacity="1" font-weight="normal" font-style="normal"/>
+            <use id="Fig:pcaplot_01.xyplot.points.panel.1.1.1.11" href="#Fig:pcagridSVG.pch19" x="100.42" y="208.07" width="8" height="8" transform=" translate(-4,-4)" stroke="rgb(228,26,28)" stroke-width="0.94" opacity="1" fill="rgb(228,26,28)" font-size="8" stroke-opacity="1" fill-opacity="1" font-weight="normal" font-style="normal"/>
+            <use id="Fig:pcaplot_01.xyplot.points.panel.1.1.1.12" href="#Fig:pcagridSVG.pch19" x="111.04" y="187.16" width="8" height="8" transform=" translate(-4,-4)" stroke="rgb(228,26,28)" stroke-width="0.94" opacity="1" fill="rgb(228,26,28)" font-size="8" stroke-opacity="1" fill-opacity="1" font-weight="normal" font-style="normal"/>
+            <use id="Fig:pcaplot_01.xyplot.points.panel.1.1.1.13" href="#Fig:pcagridSVG.pch19" x="172.71" y="224.6" width="8" height="8" transform=" translate(-4,-4)" stroke="rgb(228,26,28)" stroke-width="0.94" opacity="1" fill="rgb(228,26,28)" font-size="8" stroke-opacity="1" fill-opacity="1" font-weight="normal" font-style="normal"/>
+            <use id="Fig:pcaplot_01.xyplot.points.panel.1.1.1.14" href="#Fig:pcagridSVG.pch19" x="277.65" y="232.33" width="8" height="8" transform=" translate(-4,-4)" stroke="rgb(228,26,28)" stroke-width="0.94" opacity="1" fill="rgb(228,26,28)" font-size="8" stroke-opacity="1" fill-opacity="1" font-weight="normal" font-style="normal"/>
+          </g>
+        </g>
+        <g id="Fig:pcaplot_01.panel.1.1.off.vp.2">
+          <g id="Fig:pcaplot_01.border.panel.1.1.1">
+            <rect id="Fig:pcaplot_01.border.panel.1.1.1.1" x="76.82" y="74.28" width="236.05" height="217.83" transform="" stroke="rgb(0,0,0)" stroke-dasharray="none" stroke-width="0.75" opacity="1" fill="none" stroke-opacity="1" fill-opacity="0"/>
+          </g>
+        </g>
+        <g id="Fig:pcaplot_01..1"/>
+      </g>
+    </g>
+  </g>
+</svg>
